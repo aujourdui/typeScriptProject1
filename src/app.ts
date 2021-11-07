@@ -64,7 +64,6 @@ class ProjectState extends State<Project> {
     this.projects.push(newProject);
     this.updateListeners();
   }
-
   moveProject(projectId: string, newStatus: ProjectStatus) {
     const project = this.projects.find((prj) => prj.id === projectId);
     if (project && project.status !== newStatus) {
@@ -139,7 +138,6 @@ function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   return adjDescriptor;
 }
 
-// Component Base Class
 abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
   hostElement: T;
@@ -207,7 +205,6 @@ class ProjectItem
     event.dataTransfer!.setData("text/plain", this.project.id);
     event.dataTransfer!.effectAllowed = "move";
   }
-
   dragEndHandler(_: DragEvent) {
     console.log("DragEnd");
   }
@@ -224,7 +221,6 @@ class ProjectItem
   }
 }
 
-// ProjectList Class
 class ProjectList
   extends Component<HTMLDivElement, HTMLElement>
   implements DragTarget
@@ -234,7 +230,6 @@ class ProjectList
   constructor(private type: "active" | "finished") {
     super("project-list", "app", false, `${type}-projects`);
     this.assignedProjects = [];
-
     this.configure();
     this.renderContent();
   }
