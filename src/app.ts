@@ -7,7 +7,7 @@ interface Draggable {
 interface DragTarget {
   dragOverHandler(event: DragEvent): void;
   dropHandler(event: DragEvent): void;
-  dragLeaveHander(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
 }
 
 // Project Type
@@ -127,6 +127,7 @@ function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   return adjDescriptor;
 }
 
+// Component Base Class
 abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
   hostElement: T;
@@ -193,6 +194,7 @@ class ProjectItem
   dragStartHandler(event: DragEvent) {
     console.log(event);
   }
+
   dragEndHandler(_: DragEvent) {
     console.log("DragEnd");
   }
@@ -209,6 +211,7 @@ class ProjectItem
   }
 }
 
+// ProjectList Class
 class ProjectList
   extends Component<HTMLDivElement, HTMLElement>
   implements DragTarget
@@ -218,6 +221,7 @@ class ProjectList
   constructor(private type: "active" | "finished") {
     super("project-list", "app", false, `${type}-projects`);
     this.assignedProjects = [];
+
     this.configure();
     this.renderContent();
   }
@@ -230,7 +234,11 @@ class ProjectList
 
   dropHandler(_: DragEvent) {}
 
-  dragLeaveHandler(_: DragEvent) {}
+  @autobind
+  dragLeaveHandler(_: DragEvent) {
+    const listEl = this.element.querySelector("ul")!;
+    listEl.classList.remove("droppable");
+  }
 
   configure() {
     this.element.addEventListener("dragover", this.dragOverHandler);
